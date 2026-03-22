@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ServerTools</title>
 
 <!-- Tailwind CSS -->
@@ -15,70 +15,66 @@
 <!-- React Router DOM -->
 <script crossorigin src="https://unpkg.com/react-router-dom@6/umd/react-router-dom.development.js"></script>
 
-<!-- Babel for JSX -->
+<!-- Babel -->
 <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 </head>
-<body class="bg-[#0f0f0f] text-white font-sans">
+<body class="bg-gray-50 text-gray-800 font-sans">
+
 <div id="root"></div>
 
 <script type="text/babel">
 
 const { HashRouter, Routes, Route, Link } = ReactRouterDOM;
 
-// Navbar Component
+// Navbar
 function Navbar() {
   return (
-    <nav className="bg-[#0f0f0f] p-4 flex justify-between items-center shadow-md">
-      <h1 className="text-2xl font-bold text-[#1fb6ff]">ServerTools</h1>
+    <nav className="bg-white shadow-md p-4 flex justify-between items-center">
+      <h1 className="text-2xl font-bold text-gray-800">ServerTools</h1>
       <div className="space-x-6">
-        <Link to="/">Home</Link>
-        <Link to="/services">Services</Link>
-        <Link to="/requests">Request</Link>
-        <Link to="/dashboard">Dashboard</Link>
+        <Link to="/" className="hover:text-blue-600">Home</Link>
+        <Link to="/services" className="hover:text-blue-600">Services</Link>
+        <Link to="/requests" className="hover:text-blue-600">Request</Link>
+        <Link to="/dashboard" className="hover:text-blue-600">Dashboard</Link>
       </div>
     </nav>
   );
 }
 
-// Footer Component
+// Footer
 function Footer() {
-  return <footer className="bg-[#0f0f0f] p-6 text-center text-gray-400">&copy; 2026 ServerTools</footer>;
+  return (
+    <footer className="bg-white shadow-inner p-6 text-center text-gray-600 mt-10">
+      &copy; 2026 ServerTools. All rights reserved.
+    </footer>
+  );
 }
 
 // Hero Section
 function HeroSection() {
   return (
-    <div className="text-center py-20">
-      <h1 className="text-5xl font-bold text-[#1fb6ff] mb-4">
-        Premium Server Bots & Automation
-      </h1>
-      <p className="text-gray-300 mb-8">
-        Free tools & Robux-paid services for your server
-      </p>
-      <Link to="/services" className="bg-[#a855f7] text-black font-semibold px-6 py-3 rounded-lg hover:scale-105 transition-transform">
+    <div className="text-center py-20 bg-gray-100">
+      <h1 className="text-5xl font-bold mb-4">Professional Server Bots & Automation</h1>
+      <p className="text-gray-600 mb-8">Reliable free and premium services for your server</p>
+      <Link to="/services" className="bg-blue-600 text-white font-semibold px-6 py-3 rounded hover:bg-blue-700 transition">
         View Services
       </Link>
     </div>
   );
 }
 
-// Service Card Component
+// Service Card
 function ServiceCard({ name, description, price, isRobux }) {
-  const handleClick = () => {
-    alert(isRobux ? `Redirect to Robux purchase for ${name}` : "Free service accessed!");
-  };
+  const handleClick = () => alert(isRobux ? `Redirect to Robux purchase for ${name}` : "Free service accessed!");
   return (
-    <div className="bg-[#1a1a1a] rounded-xl shadow-lg p-6 flex flex-col justify-between hover:shadow-[#1fb6ff] transition-shadow">
+    <div className="bg-white shadow rounded p-6 flex flex-col justify-between hover:shadow-lg transition">
       <div>
-        <h2 className="text-xl font-bold text-[#1fb6ff] mb-2">{name}</h2>
-        <p className="text-gray-300 mb-4">{description}</p>
+        <h2 className="text-xl font-semibold mb-2">{name}</h2>
+        <p className="text-gray-600 mb-4">{description}</p>
       </div>
       <div className="flex justify-between items-center">
         <span className="font-semibold">{isRobux ? `${price} Robux` : "Free"}</span>
-        <button
-          onClick={handleClick}
-          className={`px-4 py-2 rounded-lg font-semibold ${isRobux ? "bg-[#a855f7] text-black hover:brightness-110" : "bg-[#1fb6ff] text-black hover:brightness-110"} transition`}
-        >
+        <button onClick={handleClick} className={`px-4 py-2 rounded font-semibold ${isRobux ? "bg-blue-600 text-white hover:bg-blue-700" : "bg-gray-300 text-gray-800 hover:bg-gray-400"} transition`}>
           {isRobux ? "Buy with Robux" : "Use Free Service"}
         </button>
       </div>
@@ -91,11 +87,10 @@ function Home() {
   return (
     <div>
       <HeroSection />
-      <div className="p-8 text-center text-gray-300">
-        <h2 className="text-2xl font-bold mb-4">Why choose us?</h2>
-        <p>
-          We provide both free tools and premium Robux-paid bots & automation
-          for your server, all with simple setup and a modern interface.
+      <div className="p-8 text-center">
+        <h2 className="text-2xl font-semibold mb-4">Why Choose ServerTools?</h2>
+        <p className="text-gray-600">
+          We provide professional-grade bots and automation services for servers, including both free tools and premium Robux-paid services. Our solutions are easy to implement and reliable.
         </p>
       </div>
     </div>
@@ -104,16 +99,16 @@ function Home() {
 
 function Services() {
   const services = [
-    { name: "Free Welcome Embed", description: "Simple welcome message for your server", price: 0, isRobux: false },
-    { name: "Advanced Verification Bot", description: "Auto verify members and assign roles", price: 100, isRobux: true },
-    { name: "Server Automation Bot", description: "Reaction roles, reminders, role management", price: 200, isRobux: true },
+    { name: "Free Welcome Embed", description: "Automatically welcome new members with a message", price: 0, isRobux: false },
+    { name: "Advanced Verification Bot", description: "Automate member verification and role assignment", price: 100, isRobux: true },
+    { name: "Server Automation Bot", description: "Manage roles, reminders, and reactions efficiently", price: 200, isRobux: true },
   ];
 
   return (
     <div className="p-8">
-      <h1 className="text-3xl font-bold text-[#1fb6ff] mb-6">Our Services</h1>
+      <h1 className="text-3xl font-bold mb-6">Our Services</h1>
       <div className="grid md:grid-cols-3 gap-6">
-        {services.map((service, i) => <ServiceCard key={i} {...service} />)}
+        {services.map((s, i) => <ServiceCard key={i} {...s} />)}
       </div>
     </div>
   );
@@ -124,7 +119,7 @@ function Requests() {
   const [email, setEmail] = React.useState("");
   const [request, setRequest] = React.useState("");
 
-  const handleSubmit = (e) => {
+  const handleSubmit = e => {
     e.preventDefault();
     alert(`Request submitted!\nName: ${name}\nEmail: ${email}\nRequest: ${request}`);
     setName(""); setEmail(""); setRequest("");
@@ -132,47 +127,44 @@ function Requests() {
 
   return (
     <div className="p-8 max-w-2xl mx-auto">
-      <h1 className="text-3xl font-bold text-[#1fb6ff] mb-6 text-center">Submit a Custom Request</h1>
-      <form onSubmit={handleSubmit} className="bg-[#1a1a1a] p-6 rounded-xl shadow-lg space-y-4">
+      <h1 className="text-3xl font-bold mb-6 text-center">Submit a Custom Request</h1>
+      <form onSubmit={handleSubmit} className="bg-white p-6 rounded shadow space-y-4">
         <div>
           <label className="block mb-1">Name:</label>
-          <input type="text" value={name} onChange={e => setName(e.target.value)} className="w-full p-2 rounded bg-[#0f0f0f] text-white border border-gray-700" required/>
+          <input type="text" value={name} onChange={e=>setName(e.target.value)} className="w-full p-2 border rounded" required/>
         </div>
         <div>
           <label className="block mb-1">Email:</label>
-          <input type="email" value={email} onChange={e => setEmail(e.target.value)} className="w-full p-2 rounded bg-[#0f0f0f] text-white border border-gray-700" required/>
+          <input type="email" value={email} onChange={e=>setEmail(e.target.value)} className="w-full p-2 border rounded" required/>
         </div>
         <div>
           <label className="block mb-1">Request Details:</label>
-          <textarea value={request} onChange={e => setRequest(e.target.value)} className="w-full p-2 rounded bg-[#0f0f0f] text-white border border-gray-700" rows="5" required/>
+          <textarea value={request} onChange={e=>setRequest(e.target.value)} className="w-full p-2 border rounded" rows="5" required/>
         </div>
-        <button type="submit" className="bg-[#a855f7] text-black font-semibold px-6 py-3 rounded-lg hover:brightness-110 transition">Submit Request</button>
+        <button type="submit" className="bg-blue-600 text-white px-6 py-3 rounded hover:bg-blue-700 transition">Submit Request</button>
       </form>
     </div>
   );
 }
 
 function Dashboard() {
-  const purchasedServices = [
+  const purchased = [
     { name: "Advanced Verification Bot", status: "Purchased" },
     { name: "Server Automation Bot", status: "Pending" },
   ];
 
   return (
     <div className="p-8 max-w-3xl mx-auto">
-      <h1 className="text-3xl font-bold text-[#1fb6ff] mb-6 text-center">Your Dashboard</h1>
-      {purchasedServices.length === 0 ? (
-        <p className="text-gray-300 text-center">You haven't purchased any services yet.</p>
-      ) : (
-        <div className="grid md:grid-cols-2 gap-6">
-          {purchasedServices.map((service, i) => (
-            <div key={i} className="bg-[#1a1a1a] p-6 rounded-xl shadow-lg hover:shadow-[#1fb6ff] transition-shadow">
-              <h2 className="text-xl font-bold text-[#1fb6ff] mb-2">{service.name}</h2>
-              <p className="text-gray-300">Status: {service.status}</p>
-            </div>
-          ))}
-        </div>
-      )}
+      <h1 className="text-3xl font-bold mb-6 text-center">Your Dashboard</h1>
+      {purchased.length===0 ? <p className="text-center text-gray-600">You haven't purchased any services yet.</p> :
+      <div className="grid md:grid-cols-2 gap-6">
+        {purchased.map((s,i)=>(
+          <div key={i} className="bg-white p-6 rounded shadow hover:shadow-lg transition">
+            <h2 className="text-xl font-semibold mb-2">{s.name}</h2>
+            <p>Status: {s.status}</p>
+          </div>
+        ))}
+      </div>}
     </div>
   );
 }
@@ -197,5 +189,6 @@ function App() {
 ReactDOM.createRoot(document.getElementById("root")).render(<App />);
 
 </script>
+
 </body>
-  </html>
+</html>

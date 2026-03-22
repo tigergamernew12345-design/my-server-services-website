@@ -5,91 +5,254 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ServerTools</title>
 <script src="https://cdn.tailwindcss.com"></script>
+<style>
+  /* Base body */
+  body {
+    background-image: url('https://drive.google.com/uc?export=view&id=16lGnX5OnV0rRUlz1P0NfoUibosLf176M');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    scroll-behavior: smooth;
+    overflow-x: hidden;
+  }
+
+  /* Overlay gradient animation */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background: linear-gradient(120deg, rgba(96,165,250,0.3), rgba(236,72,153,0.3), rgba(16,185,129,0.3));
+    background-size: 400% 400%;
+    animation: gradientMove 20s ease infinite;
+    z-index: 0;
+  }
+
+  @keyframes gradientMove {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  /* Particle canvas */
+  #particles {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  section, footer, form { position: relative; z-index: 10; }
+
+  /* Fade-in and slide-in */
+  .fade-in { opacity: 0; transition: opacity 0.8s, transform 0.8s; transform: translateY(20px); }
+  .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+  .slide-left { transform: translateX(-50px); opacity: 0; transition: transform 0.8s, opacity 0.8s; }
+  .slide-left.visible { transform: translateX(0); opacity: 1; }
+
+  .slide-right { transform: translateX(50px); opacity: 0; transition: transform 0.8s, opacity 0.8s; }
+  .slide-right.visible { transform: translateX(0); opacity: 1; }
+
+  /* Badge pop */
+  @keyframes pop { 0% { transform: scale(1); } 50% { transform: scale(1.2); } 100% { transform: scale(1); } }
+  .pop { animation: pop 0.4s forwards; }
+
+  /* Hero button pulse */
+  @keyframes pulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+  .pulse { animation: pulse 2s infinite; }
+
+  /* Navbar active link */
+  .nav-link { transition: color 0.3s; }
+  .nav-link.active { color: #60a5fa; }
+</style>
 </head>
-<body class="bg-gray-50 text-gray-800 font-sans">
+<body class="text-gray-100 font-sans">
+
+<!-- Particle canvas -->
+<canvas id="particles"></canvas>
 
 <!-- Navbar -->
-<nav class="bg-white shadow-md p-4 flex justify-between items-center">
-  <h1 class="text-2xl font-bold text-gray-800">ServerTools</h1>
-  <div class="space-x-6">
-    <a href="#home" class="hover:text-blue-600">Home</a>
-    <a href="#services" class="hover:text-blue-600">Services</a>
-    <a href="#requests" class="hover:text-blue-600">Request</a>
-    <a href="#dashboard" class="hover:text-blue-600">Dashboard</a>
+<nav class="fixed top-0 w-full bg-black/50 backdrop-blur-md z-20 py-4">
+  <div class="max-w-6xl mx-auto flex justify-between items-center px-4">
+    <div class="text-white font-bold text-xl">ServerTools</div>
+    <!-- Desktop Menu -->
+    <div class="hidden md:flex space-x-6">
+      <a href="#services" class="nav-link text-white font-semibold hover:text-blue-400 transition">Services</a>
+      <a href="#requests" class="nav-link text-white font-semibold hover:text-blue-400 transition">Custom Requests</a>
+      <a href="#dashboard" class="nav-link text-white font-semibold hover:text-blue-400 transition">Dashboard</a>
+    </div>
+    <!-- Hamburger -->
+    <div class="md:hidden">
+      <button id="hamburgerBtn" class="focus:outline-none text-white">☰</button>
+    </div>
+  </div>
+  <!-- Mobile Menu -->
+  <div id="mobileMenu" class="hidden flex-col items-center space-y-2 mt-2 md:hidden">
+    <a href="#services" class="nav-link text-white font-semibold hover:text-blue-400 transition block">Services</a>
+    <a href="#requests" class="nav-link text-white font-semibold hover:text-blue-400 transition block">Custom Requests</a>
+    <a href="#dashboard" class="nav-link text-white font-semibold hover:text-blue-400 transition block">Dashboard</a>
   </div>
 </nav>
 
 <!-- Hero Section -->
-<section id="home" class="text-center py-20 bg-gray-100">
+<section class="text-center py-28 fade-in">
   <h1 class="text-5xl font-bold mb-4">Professional Server Bots & Automation</h1>
-  <p class="text-gray-600 mb-8">Reliable free and premium services for your server</p>
-  <a href="#services" class="bg-blue-600 text-white font-semibold px-6 py-3 rounded hover:bg-blue-700 transition">View Services</a>
+  <p class="text-gray-200 mb-8">Reliable Robux-paid services for your server</p>
+  <button class="bg-blue-600 text-white px-8 py-4 rounded hover:bg-blue-700 transition transform pulse">Explore Services</button>
 </section>
 
-<!-- Services -->
-<section id="services" class="p-8">
-  <h1 class="text-3xl font-bold mb-6">Our Services</h1>
-  <div class="grid md:grid-cols-3 gap-6">
-    <div class="bg-white shadow rounded p-6">
-      <h2 class="text-xl font-semibold mb-2">Free Welcome Embed</h2>
-      <p class="text-gray-600 mb-4">Automatically welcome new members with a message</p>
-      <span class="font-semibold">Free</span>
-      <button onclick="alert('Using Free Welcome Embed')" class="ml-2 bg-gray-300 text-gray-800 px-4 py-2 rounded hover:bg-gray-400">Use Free Service</button>
+<!-- Services Section -->
+<section id="services" class="p-8 max-w-4xl mx-auto fade-in" style="animation-delay: 0.5s;">
+  <h1 class="text-3xl font-bold mb-6 text-center">Our Services</h1>
+  <div class="grid md:grid-cols-2 gap-6">
+    <div class="bg-white/10 shadow rounded p-6 text-center hover:shadow-xl transform hover:-translate-y-1 transition slide-left">
+      <h2 class="text-xl font-semibold mb-2">Basic Bot</h2>
+      <p class="text-gray-200 mb-4">A simple bot to automate basic server tasks.</p>
+      <span class="font-semibold mb-4 block">100 Robux</span>
+      <button onclick="buyBot('Basic Bot','https://www.roblox.com/game-pass/1759720234/Basic-bot',100)" class="bg-blue-600 text-white px-6 py-3 rounded hover:bg-blue-700 hover:scale-105 transition transform">Buy with Robux</button>
     </div>
-    <div class="bg-white shadow rounded p-6">
-      <h2 class="text-xl font-semibold mb-2">Advanced Verification Bot</h2>
-      <p class="text-gray-600 mb-4">Automate member verification and role assignment</p>
-      <span class="font-semibold">100 Robux</span>
-      <button onclick="alert('Redirect to Robux purchase for Advanced Verification Bot')" class="ml-2 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Buy with Robux</button>
-    </div>
-    <div class="bg-white shadow rounded p-6">
-      <h2 class="text-xl font-semibold mb-2">Server Automation Bot</h2>
-      <p class="text-gray-600 mb-4">Manage roles, reminders, and reactions efficiently</p>
-      <span class="font-semibold">200 Robux</span>
-      <button onclick="alert('Redirect to Robux purchase for Server Automation Bot')" class="ml-2 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Buy with Robux</button>
+    <div class="bg-white/10 shadow rounded p-6 text-center hover:shadow-xl transform hover:-translate-y-1 transition slide-right">
+      <h2 class="text-xl font-semibold mb-2">Advanced Bot</h2>
+      <p class="text-gray-200 mb-4">An advanced bot with automation, verification, and role management.</p>
+      <span class="font-semibold mb-4 block">200 Robux</span>
+      <button onclick="buyBot('Advanced Bot','https://www.roblox.com/game-pass/1764102419/Advanced-Bot',200)" class="bg-blue-600 text-white px-6 py-3 rounded hover:bg-blue-700 hover:scale-105 transition transform">Buy with Robux</button>
     </div>
   </div>
 </section>
 
 <!-- Requests Form -->
-<section id="requests" class="p-8 max-w-2xl mx-auto">
+<section id="requests" class="p-8 max-w-2xl mx-auto fade-in" style="animation-delay: 1s;">
   <h1 class="text-3xl font-bold mb-6 text-center">Submit a Custom Request</h1>
-  <form onsubmit="alert('Request submitted!'); return false;" class="bg-white p-6 rounded shadow space-y-4">
+  <form onsubmit="submitRequest(event)" class="bg-white/10 p-6 rounded shadow space-y-4 fade-in">
     <div>
       <label class="block mb-1">Name:</label>
-      <input type="text" class="w-full p-2 border rounded" required />
+      <input type="text" id="reqName" class="w-full p-2 border rounded text-black" required />
     </div>
     <div>
       <label class="block mb-1">Email:</label>
-      <input type="email" class="w-full p-2 border rounded" required />
+      <input type="email" id="reqEmail" class="w-full p-2 border rounded text-black" required />
     </div>
     <div>
       <label class="block mb-1">Request Details:</label>
-      <textarea class="w-full p-2 border rounded" rows="5" required></textarea>
+      <textarea id="reqDetails" class="w-full p-2 border rounded text-black" rows="5" required></textarea>
     </div>
-    <button type="submit" class="bg-blue-600 text-white px-6 py-3 rounded hover:bg-blue-700 transition">Submit Request</button>
+    <button type="submit" class="bg-blue-600 text-white px-6 py-3 rounded hover:bg-blue-700 hover:scale-105 transition transform">Submit Request</button>
   </form>
 </section>
 
-<!-- Dashboard -->
-<section id="dashboard" class="p-8 max-w-3xl mx-auto">
+<!-- Dashboard Section -->
+<section id="dashboard" class="p-8 max-w-3xl mx-auto fade-in" style="animation-delay: 1.5s;">
   <h1 class="text-3xl font-bold mb-6 text-center">Your Dashboard</h1>
-  <div class="grid md:grid-cols-2 gap-6">
-    <div class="bg-white p-6 rounded shadow hover:shadow-lg transition">
-      <h2 class="text-xl font-semibold mb-2">Advanced Verification Bot</h2>
-      <p>Status: Purchased</p>
-    </div>
-    <div class="bg-white p-6 rounded shadow hover:shadow-lg transition">
-      <h2 class="text-xl font-semibold mb-2">Server Automation Bot</h2>
-      <p>Status: Pending</p>
-    </div>
-  </div>
+  <div id="dashboard-cards" class="grid md:grid-cols-2 gap-6"></div>
 </section>
 
 <!-- Footer -->
-<footer class="bg-white shadow-inner p-6 text-center text-gray-600 mt-10">
+<footer class="bg-white/10 shadow-inner p-6 text-center text-gray-200 mt-10 fade-in" style="animation-delay: 2s;">
   &copy; 2026 ServerTools. All rights reserved.
 </footer>
 
+<script>
+// Hamburger toggle
+const hamburgerBtn = document.getElementById('hamburgerBtn');
+const mobileMenu = document.getElementById('mobileMenu');
+hamburgerBtn.addEventListener('click', () => { mobileMenu.classList.toggle('hidden'); });
+
+// Fade-in & slide-in on scroll
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => { if(entry.isIntersecting) entry.target.classList.add('visible'); });
+}, { threshold: 0.2 });
+document.querySelectorAll('.fade-in, .slide-left, .slide-right').forEach(el => observer.observe(el));
+
+// Robux purchase
+function buyBot(name, url, price) {
+  if(confirm(`Buy "${name}" for ${price} Robux?`)) {
+    window.open(url,"_blank");
+    let purchases = JSON.parse(localStorage.getItem('purchases')) || {};
+    purchases[name] = "Purchased";
+    localStorage.setItem('purchases', JSON.stringify(purchases));
+    animateDashboard(name);
+  }
+}
+
+function renderDashboard() {
+  const dashboard = document.getElementById('dashboard-cards');
+  const services = ['Basic Bot','Advanced Bot'];
+  const purchases = JSON.parse(localStorage.getItem('purchases')) || {};
+  dashboard.innerHTML = '';
+  services.forEach(name => {
+    const status = purchases[name] || "Pending";
+    const badgeColor = status==="Purchased"?"bg-green-500":"bg-yellow-400";
+    const div = document.createElement('div');
+    div.className='bg-white/10 p-6 rounded shadow hover:shadow-xl transform hover:-translate-y-1 transition slide-left';
+    div.innerHTML=`<h2 class="text-xl font-semibold mb-2">${name}</h2><span id="badge-${name.replace(/\s/g,'')}" class="px-3 py-1 rounded text-white font-semibold ${badgeColor}">${status}</span>`;
+    dashboard.appendChild(div);
+    observer.observe(div);
+  });
+}
+
+function animateDashboard(name) {
+  renderDashboard();
+  const badge=document.getElementById(`badge-${name.replace(/\s/g,'')}`);
+  if(badge){ badge.classList.add('pop'); setTimeout(()=>badge.classList.remove('pop'),400); }
+}
+renderDashboard();
+
+// Request form
+function submitRequest(e){
+  e.preventDefault();
+  const name=document.getElementById('reqName').value;
+  const email=document.getElementById('reqEmail').value;
+  const details=document.getElementById('reqDetails').value;
+  const subject=encodeURIComponent(`ServerTools Request from ${name}`);
+  const body=encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\nRequest Details:\n${details}`);
+  window.location.href=`mailto:tigergamernew12345@gmail.com?subject=${subject}&body=${body}`;
+  alert('Request will open in your email client!');
+}
+
+// Scroll highlight
+const sections=document.querySelectorAll('section[id]');
+const navLinks=document.querySelectorAll('.nav-link');
+window.addEventListener('scroll',()=>{
+  let scrollPos=window.scrollY+140;
+  sections.forEach(sec=>{
+    if(scrollPos>=sec.offsetTop && scrollPos<sec.offsetTop+sec.offsetHeight){
+      navLinks.forEach(link=>link.classList.remove('active'));
+      const activeLink=document.querySelector(`.nav-link[href="#${sec.id}"]`);
+      if(activeLink) activeLink.classList.add('active');
+    }
+  });
+});
+
+// Particle effect
+const canvas=document.getElementById('particles');
+const ctx=canvas.getContext('2d');
+let particlesArray=[];
+function initParticles(){
+  canvas.width=window.innerWidth;
+  canvas.height=window.innerHeight;
+  particlesArray=[];
+  for(let i=0;i<80;i++){
+    particlesArray.push({x:Math.random()*canvas.width,y:Math.random()*canvas.height,radius:Math.random()*2+1,speed:Math.random()*0.5+0.2,directionX:(Math.random()-0.5)*0.3,directionY:(Math.random()-0.5)*0.3});
+  }
+}
+function animateParticles(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  particlesArray.forEach(p=>{
+    ctx.beginPath();
+    ctx.arc(p.x,p.y,p.radius,0,Math.PI*2,false);
+    ctx.fillStyle='rgba(255,255,255,0.4)';
+    ctx.fill();
+    p.x+=p.directionX;
+    p.y+=p.directionY;
+    if(p.x<0 || p.x>canvas.width)p.directionX*=-1;
+    if(p.y<0 || p.y>canvas.height)p.directionY*=-1;
+  });
+  requestAnimationFrame(animateParticles);
+}
+window.addEventListener('resize',()=>initParticles());
+initParticles();
+animateParticles();
+</script>
 </body>
-</html>
+  </html>

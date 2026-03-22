@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>ServerTools</title>
+
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com"></script>
+
+<!-- React + ReactDOM -->
+<script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+
+<!-- React Router DOM -->
+<script crossorigin src="https://unpkg.com/react-router-dom@6/umd/react-router-dom.development.js"></script>
+
+<!-- Babel for JSX -->
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+<body class="bg-[#0f0f0f] text-white font-sans">
+<div id="root"></div>
+
+<script type="text/babel">
+
+const { HashRouter, Routes, Route, Link } = ReactRouterDOM;
+
+// Navbar Component
+function Navbar() {
+  return (
+    <nav className="bg-[#0f0f0f] p-4 flex justify-between items-center shadow-md">
+      <h1 className="text-2xl font-bold text-[#1fb6ff]">ServerTools</h1>
+      <div className="space-x-6">
+        <Link to="/">Home</Link>
+        <Link to="/services">Services</Link>
+        <Link to="/requests">Request</Link>
+        <Link to="/dashboard">Dashboard</Link>
+      </div>
+    </nav>
+  );
+}
+
+// Footer Component
+function Footer() {
+  return <footer className="bg-[#0f0f0f] p-6 text-center text-gray-400">&copy; 2026 ServerTools</footer>;
+}
+
+// Hero Section
+function HeroSection() {
+  return (
+    <div className="text-center py-20">
+      <h1 className="text-5xl font-bold text-[#1fb6ff] mb-4">
+        Premium Server Bots & Automation
+      </h1>
+      <p className="text-gray-300 mb-8">
+        Free tools & Robux-paid services for your server
+      </p>
+      <Link to="/services" className="bg-[#a855f7] text-black font-semibold px-6 py-3 rounded-lg hover:scale-105 transition-transform">
+        View Services
+      </Link>
+    </div>
+  );
+}
+
+// Service Card Component
+function ServiceCard({ name, description, price, isRobux }) {
+  const handleClick = () => {
+    alert(isRobux ? `Redirect to Robux purchase for ${name}` : "Free service accessed!");
+  };
+  return (
+    <div className="bg-[#1a1a1a] rounded-xl shadow-lg p-6 flex flex-col justify-between hover:shadow-[#1fb6ff] transition-shadow">
+      <div>
+        <h2 className="text-xl font-bold text-[#1fb6ff] mb-2">{name}</h2>
+        <p className="text-gray-300 mb-4">{description}</p>
+      </div>
+      <div className="flex justify-between items-center">
+        <span className="font-semibold">{isRobux ? `${price} Robux` : "Free"}</span>
+        <button
+          onClick={handleClick}
+          className={`px-4 py-2 rounded-lg font-semibold ${isRobux ? "bg-[#a855f7] text-black hover:brightness-110" : "bg-[#1fb6ff] text-black hover:brightness-110"} transition`}
+        >
+          {isRobux ? "Buy with Robux" : "Use Free Service"}
+        </button>
+      </div>
+    </div>
+  );
+}
+
+// Pages
+function Home() {
+  return (
+    <div>
+      <HeroSection />
+      <div className="p-8 text-center text-gray-300">
+        <h2 className="text-2xl font-bold mb-4">Why choose us?</h2>
+        <p>
+          We provide both free tools and premium Robux-paid bots & automation
+          for your server, all with simple setup and a modern interface.
+        </p>
+      </div>
+    </div>
+  );
+}
+
+function Services() {
+  const services = [
+    { name: "Free Welcome Embed", description: "Simple welcome message for your server", price: 0, isRobux: false },
+    { name: "Advanced Verification Bot", description: "Auto verify members and assign roles", price: 100, isRobux: true },
+    { name: "Server Automation Bot", description: "Reaction roles, reminders, role management", price: 200, isRobux: true },
+  ];
+
+  return (
+    <div className="p-8">
+      <h1 className="text-3xl font-bold text-[#1fb6ff] mb-6">Our Services</h1>
+      <div className="grid md:grid-cols-3 gap-6">
+        {services.map((service, i) => <ServiceCard key={i} {...service} />)}
+      </div>
+    </div>
+  );
+}
+
+function Requests() {
+  const [name, setName] = React.useState("");
+  const [email, setEmail] = React.useState("");
+  const [request, setRequest] = React.useState("");
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    alert(`Request submitted!\nName: ${name}\nEmail: ${email}\nRequest: ${request}`);
+    setName(""); setEmail(""); setRequest("");
+  };
+
+  return (
+    <div className="p-8 max-w-2xl mx-auto">
+      <h1 className="text-3xl font-bold text-[#1fb6ff] mb-6 text-center">Submit a Custom Request</h1>
+      <form onSubmit={handleSubmit} className="bg-[#1a1a1a] p-6 rounded-xl shadow-lg space-y-4">
+        <div>
+          <label className="block mb-1">Name:</label>
+          <input type="text" value={name} onChange={e => setName(e.target.value)} className="w-full p-2 rounded bg-[#0f0f0f] text-white border border-gray-700" required/>
+        </div>
+        <div>
+          <label className="block mb-1">Email:</label>
+          <input type="email" value={email} onChange={e => setEmail(e.target.value)} className="w-full p-2 rounded bg-[#0f0f0f] text-white border border-gray-700" required/>
+        </div>
+        <div>
+          <label className="block mb-1">Request Details:</label>
+          <textarea value={request} onChange={e => setRequest(e.target.value)} className="w-full p-2 rounded bg-[#0f0f0f] text-white border border-gray-700" rows="5" required/>
+        </div>
+        <button type="submit" className="bg-[#a855f7] text-black font-semibold px-6 py-3 rounded-lg hover:brightness-110 transition">Submit Request</button>
+      </form>
+    </div>
+  );
+}
+
+function Dashboard() {
+  const purchasedServices = [
+    { name: "Advanced Verification Bot", status: "Purchased" },
+    { name: "Server Automation Bot", status: "Pending" },
+  ];
+
+  return (
+    <div className="p-8 max-w-3xl mx-auto">
+      <h1 className="text-3xl font-bold text-[#1fb6ff] mb-6 text-center">Your Dashboard</h1>
+      {purchasedServices.length === 0 ? (
+        <p className="text-gray-300 text-center">You haven't purchased any services yet.</p>
+      ) : (
+        <div className="grid md:grid-cols-2 gap-6">
+          {purchasedServices.map((service, i) => (
+            <div key={i} className="bg-[#1a1a1a] p-6 rounded-xl shadow-lg hover:shadow-[#1fb6ff] transition-shadow">
+              <h2 className="text-xl font-bold text-[#1fb6ff] mb-2">{service.name}</h2>
+              <p className="text-gray-300">Status: {service.status}</p>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+// App
+function App() {
+  return (
+    <HashRouter>
+      <Navbar />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/services" element={<Services />} />
+        <Route path="/requests" element={<Requests />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+      </Routes>
+      <Footer />
+    </HashRouter>
+  );
+}
+
+// Render
+ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+
+</script>
+</body>
+  </html>
